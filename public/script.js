@@ -258,10 +258,7 @@ const Dashboard = {
                 <span class="project-status ${project.status.toLowerCase().replace('ã', 'a').replace('í', 'i')}">${project.status}</span>
                 <div class="project-actions-card">
                     <button class="btn btn-outline btn-small" onclick="event.stopPropagation(); Project.edit('${project.id}')">Editar</button>
-                    ${project.createdBy === AppState.currentUser.id ? 
-                        `<button class="btn btn-danger btn-small" onclick="event.stopPropagation(); Project.delete('${project.id}')">Excluir</button>` 
-                        : ''
-                    }
+                    <button class="btn btn-danger btn-small" onclick="event.stopPropagation(); Project.delete('${project.id}')">Excluir</button>
                 </div>
             </div>
         `).join('');
@@ -304,6 +301,7 @@ const Project = {
             }
             
             UI.hideModal('project-modal');
+            UI.clearForm('project-form');
             await Dashboard.load();
         } catch (error) {
             console.error('Erro ao salvar projeto:', error);
@@ -493,6 +491,7 @@ const Activity = {
             }
             
             UI.hideModal('activity-modal');
+            UI.clearForm('activity-form');
             await ProjectKanban.load(AppState.currentProject.id);
         } catch (error) {
             console.error('Erro ao salvar atividade:', error);
@@ -574,7 +573,7 @@ const ColumnManager = {
             <div class="column-item" data-column="${column.id}" data-index="${index}">
                 <input type="text" value="${column.name}" data-field="name">
                 <div class="column-controls">
-                <button class="btn btn-danger btn-small" onclick="ColumnManager.remove('${column.id}')">Remover</button>
+                    <button class="btn btn-danger btn-small" onclick="ColumnManager.remove('${column.id}')">Remover</button>
                 </div>
             </div>
         `).join('');
@@ -624,15 +623,18 @@ const ColumnManager = {
             
             columnItems.forEach(item => {
                 const columnId = item.dataset.column;
-                const index = parseInt(item.dataset.index);
                 const newName = item.querySelector('input[data-field="name"]').value.trim();
                 
                 const column = AppState.currentProject.columns.find(c => c.id === columnId);
                 if (column && newName) {
                     column.name = newName;
-                    column.order = index;
                     updatedColumns.push(column);
                 }
+            });
+            
+            // Update order based on current DOM order
+            updatedColumns.forEach((col, index) => {
+                col.order = index;
             });
             
             // Validate that we have at least one column

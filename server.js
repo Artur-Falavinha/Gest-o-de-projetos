@@ -201,11 +201,7 @@ app.put('/api/projects/:id', authenticateToken, (req, res) => {
     return res.status(404).json({ message: 'Projeto não encontrado' });
   }
   
-  const project = projects[projectIndex];
-  if (project.createdBy !== req.user.id && !project.members.includes(req.user.id)) {
-    return res.status(403).json({ message: 'Sem permissão para editar este projeto' });
-  }
-  
+  const project = projects[projectIndex];  
   projects[projectIndex] = { ...project, ...req.body };
   writeJSON(projectsPath, projects);
   res.json(projects[projectIndex]);
@@ -217,11 +213,6 @@ app.delete('/api/projects/:id', authenticateToken, (req, res) => {
   
   if (projectIndex === -1) {
     return res.status(404).json({ message: 'Projeto não encontrado' });
-  }
-  
-  const project = projects[projectIndex];
-  if (project.createdBy !== req.user.id) {
-    return res.status(403).json({ message: 'Apenas o criador pode excluir o projeto' });
   }
   
   projects.splice(projectIndex, 1);
@@ -242,11 +233,6 @@ app.put('/api/projects/:id/columns', authenticateToken, (req, res) => {
   
   if (projectIndex === -1) {
     return res.status(404).json({ message: 'Projeto não encontrado' });
-  }
-  
-  const project = projects[projectIndex];
-  if (!project.members.includes(req.user.id) && project.createdBy !== req.user.id) {
-    return res.status(403).json({ message: 'Sem permissão para editar este projeto' });
   }
   
   projects[projectIndex].columns = req.body.columns;
@@ -319,10 +305,6 @@ app.put('/api/activities/:id/development', authenticateToken, (req, res) => {
   }
   
   const activity = activities[activityIndex];
-  
-  if (activity.inDevelopment && activity.developmentBy !== req.user.id) {
-    return res.status(403).json({ message: 'Esta atividade já está sendo desenvolvida por outro usuário' });
-  }
   
   activities[activityIndex].inDevelopment = !activity.inDevelopment;
   activities[activityIndex].developmentBy = activities[activityIndex].inDevelopment ? req.user.id : null;
