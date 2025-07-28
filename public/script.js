@@ -569,9 +569,10 @@ const ColumnManager = {
 
     render() {
         const list = document.getElementById('columns-list');
-        list.innerHTML = AppState.currentProject.columns.map((column, index) => `
+        const columns = AppState.currentProject.columns || [];
+        list.innerHTML = columns.map((column, index) => `
             <div class="column-item" data-column="${column.id}" data-index="${index}">
-                <input type="text" value="${column.name}" data-field="name">
+                <input type="text" value="${column.name}" data-field="name" placeholder="Nome da coluna">
                 <div class="column-controls">
                     <button class="btn btn-danger btn-small" onclick="ColumnManager.remove('${column.id}')">Remover</button>
                 </div>
@@ -580,6 +581,10 @@ const ColumnManager = {
     },
 
     add() {
+        if (!AppState.currentProject.columns) {
+            AppState.currentProject.columns = [];
+        }
+        
         const newColumn = {
             id: 'col_' + Date.now(),
             name: 'Nova Coluna',
@@ -603,6 +608,7 @@ const ColumnManager = {
             alert('Deve haver pelo menos uma coluna no projeto.');
             return;
         }
+        
         AppState.currentProject.columns = AppState.currentProject.columns.filter(c => c.id !== columnId);
         
         // Update order of remaining columns
@@ -625,16 +631,13 @@ const ColumnManager = {
                 const columnId = item.dataset.column;
                 const newName = item.querySelector('input[data-field="name"]').value.trim();
                 
-                const column = AppState.currentProject.columns.find(c => c.id === columnId);
-                if (column && newName) {
-                    column.name = newName;
-                    updatedColumns.push(column);
+                if (newName) {
+                    updatedColumns.push({
+                        id: columnId,
+                        name: newName,
+                        order: index
+                    });
                 }
-            });
-            
-            // Update order based on current DOM order
-            updatedColumns.forEach((col, index) => {
-                col.order = index;
             });
             
             // Validate that we have at least one column
