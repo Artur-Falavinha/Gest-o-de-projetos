@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "1753675445718",
+    "name": "teste",
+    "description": "teste",
+    "status": "Analisando",
+    "members": [
+      "1"
+    ],
+    "createdBy": "1",
+    "createdAt": "2025-07-28T04:04:05.718Z",
+    "columns": [
+      {
+        "id": "todo",
+        "name": "A Fazer",
+        "order": 0
+      },
+      {
+        "id": "progress",
+        "name": "Em Progresso",
+        "order": 1
+      },
+      {
+        "id": "done",
+        "name": "Finalizado",
+        "order": 2
+      }
+    ]
+  }
+]
