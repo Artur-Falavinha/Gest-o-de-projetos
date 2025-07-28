@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "username": "admin",
+    "password": "admin123",
+    "name": "Administrador",
+    "email": "admin@empresa.com"
+  },
+  {
+    "id": "2",
+    "username": "user1",
+    "password": "user123",
+    "name": "João Silva",
+    "email": "joao@empresa.com"
+  },
+  {
+    "id": "3",
+    "username": "user2",
+    "password": "user123",
+    "name": "Maria Santos",
+    "email": "maria@empresa.com"
+  }
+]

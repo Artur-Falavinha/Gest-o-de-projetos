@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento de Atividades</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <div class="login-box">
+                <h1>Sistema de Gerenciamento</h1>
+                <p class="login-subtitle">Gerencie projetos e atividades em equipe</p>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Usuário</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                </form>
+                
+                <div class="demo-accounts">
+                    <h3>Contas de Demonstração:</h3>
+                    <p><strong>Admin:</strong> admin / admin123</p>
+                    <p><strong>Usuário 1:</strong> user1 / user123</p>
+                    <p><strong>Usuário 2:</strong> user2 / user123</p>
+                </div>
+                
+                <div id="login-error" class="error-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+        <header class="header">
+            <div class="header-content">
+                <h1>Dashboard</h1>
+                <div class="user-info">
+                    <span id="user-name"></span>
+                    <button id="logout-btn" class="btn btn-secondary">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="dashboard-actions">
+                <button id="new-project-btn" class="btn btn-primary">+ Novo Projeto</button>
+            </div>
+
+            <div class="projects-grid" id="projects-grid">
+                <!-- Projects will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Project Kanban Screen -->
+    <div id="kanban-screen" class="screen">
+        <header class="header">
+            <div class="header-content">
+                <button id="back-to-dashboard" class="btn btn-secondary">← Voltar</button>
+                <h1 id="project-title"></h1>
+                <div class="project-actions">
+                    <button id="manage-columns-btn" class="btn btn-outline">Gerenciar Colunas</button>
+                    <button id="new-activity-btn" class="btn btn-primary">+ Nova Atividade</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="kanban-content">
+            <div class="kanban-board" id="kanban-board">
+                <!-- Kanban columns will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- New Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="project-modal-title">Novo Projeto</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="project-form">
+                <div class="form-group">
+                    <label for="project-name">Nome do Projeto</label>
+                    <input type="text" id="project-name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="project-description">Descrição</label>
+                    <textarea id="project-description" name="description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="project-status">Status</label>
+                    <select id="project-status" name="status">
+                        <option value="Analisando">Analisando</option>
+                        <option value="Desenvolvendo">Desenvolvendo</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary cancel-modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Activity Modal -->
+    <div id="activity-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="activity-modal-title">Nova Atividade</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="activity-form">
+                <div class="form-group">
+                    <label for="activity-title">Título</label>
+                    <input type="text" id="activity-title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-description">Descrição</label>
+                    <textarea id="activity-description" name="description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-column">Coluna</label>
+                    <select id="activity-column" name="column">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary cancel-modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Manage Columns Modal -->
+    <div id="columns-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Gerenciar Colunas</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: #64748b; margin-bottom: 20px; padding: 0 35px; font-size: 14px;">
+                    Personalize as colunas do seu projeto. Você pode renomear, adicionar ou remover colunas conforme necessário.
+                </p>
+            <div class="columns-list" id="columns-list">
+                <!-- Columns will be loaded here -->
+            </div>
+            </div>
+            <div class="modal-actions">
+                <button id="add-column-btn" class="btn btn-outline">+ Adicionar Coluna</button>
+                <button type="button" class="btn btn-secondary cancel-modal">Cancelar</button>
+                <button id="save-columns-btn" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1",
+    "name": "Sistema de Vendas",
+    "status": "Concluído",
+    "description": "Desenvolvimento do novo sistema de vendas",
+    "members": [
+      "1",
+      "2"
+    ],
+    "createdBy": "1",
+    "createdAt": "2025-07-28T03:35:13.742Z",
+    "columns": [
+      {
+        "id": "todo",
+        "name": "A Fazer",
+        "order": 0
+      },
+      {
+        "id": "progress",
+        "name": "Em Progresso",
+        "order": 1
+      },
+      {
+        "id": "done",
+        "name": "Finalizado",
+        "order": 2
+      }
+    ]
+  }
+]
