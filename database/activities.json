@@ -16,7 +16,7 @@
     "projectId": "1",
     "title": "teste",
     "description": "testando",
-    "column": "todo",
+    "column": "progress",
     "assignedTo": null,
     "inDevelopment": false,
     "developmentBy": null,
