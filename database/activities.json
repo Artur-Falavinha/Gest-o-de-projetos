@@ -4,7 +4,7 @@
     "projectId": "1",
     "title": "teset",
     "description": "sdsada",
-    "column": "todo",
+    "column": "done",
     "assignedTo": null,
     "inDevelopment": true,
     "developmentBy": "2",
